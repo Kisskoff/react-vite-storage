@@ -118,24 +118,55 @@ function App() {
 
   return (
     <div className="flex justify-center">
-      <div className="w-2/3 flex flex-col gap-4 my-15 bg-base-200 p-5 rounded-2xl">
+      {/* <div className="w-2/3 flex flex-col gap-4 my-15 bg-base-200 p-5 rounded-2xl"> */}
+      <div
+        className="
+        w-full           /* Mobile : largeur 100% */
+        md:w-2/3         /* Desktop : 2/3 de l'écran */
+        flex flex-col gap-4 my-15 md:bg-base-200 p-5 
+        rounded-none     /* Mobile : pas d'arrondi */
+        md:rounded-2xl   /* Desktop : arrondi */
+      "
+      >
         <h1 className="text-3xl font-bold mb-2">
           TODO APP {count > 0 ? `(${count})` : ''}
         </h1>
-        <div className="flex gap-4">
-          <input type="text" className="input w-full" placeholder="Ajouter une nouvelle tâche" value={inputTitle} onChange={(e) => setInputTitle(e.target.value)} />
-          <select aria-label="Priorité" className="select" value={inputPriority} onChange={(e) => setInputPriority(e.target.value as Prority)}>
+       
+        <div className="flex flex-col gap-2 md:flex-row md:gap-4 w-full">
+
+          <input
+            type="text"
+            className="input w-full"
+            placeholder="Ajouter une nouvelle tâche"
+            value={inputTitle}
+            onChange={(e) => setInputTitle(e.target.value)}
+          />
+
+          <select
+            aria-label="Priorité"
+            className="select w-full md:w-auto"
+            value={inputPriority}
+            onChange={(e) => setInputPriority(e.target.value as Prority)}
+          >
             <option disabled value="">Priorité</option>
             <option value="low">Low</option>
             <option value="medium">Medium</option>
             <option value="high">High</option>
           </select>
-          <button type="button" className="btn btn-primary" onClick={addTodo}>Ajouter</button>
+
+          <button
+            type="button"
+            className="btn btn-primary w-full md:w-auto"
+            onClick={addTodo}
+          >
+            Ajouter
+          </button>
 
         </div>
+
         {filteredTodos.length > 0 ?
           <div className="space-y-2 flex flex-1 hit-fit">
-            <div className="flex items-center justify-between w-full">
+            <div className="flex flex-col md:flex-row items-start justify-between w-full gap-4 md:gap-0 ">
               <div className="flex flex-wrap gap-4">
                 <button className={`btn btn-soft ${filter === 'all' ? 'btn-primary' : ''}`} onClick={() => setFilter('all')}>Tous {allTodos > 0 ? `(${allTodos})` : ''}</button>
                 <button className={`btn btn-soft ${filter === 'low' ? 'btn-primary' : ''}`} onClick={() => setFilter('low')}>Low {lowTodos > 0 ? `(${lowTodos})` : ''}</button>
@@ -144,16 +175,30 @@ function App() {
               </div>
               {selectedTods.size > 0 ?
                 <button
-                  onClick={addSelectedToDone} className="btn btn-primary">
+                  onClick={addSelectedToDone} className="btn btn-primary w-full md:w-auto">
                   Terminer la sélection ({selectedTods.size})
                 </button>
                 : null}
             </div>
+            {/* <div className="flex flex-col md:flex-row bg-white">
+              <select
+                aria-label="filter"
+                className="select w-full md:w-auto"
+              >
+                 <option className={`btn btn-soft ${filter === 'all' ? 'btn-primary' : ''}`} onClick={() => setFilter('all')}>Tous {allTodos > 0 ? `(${allTodos})` : ''}</button>
+                <option className={`btn btn-soft ${filter === 'low' ? 'btn-primary' : ''}`} onClick={() => setFilter('low')}>Low {lowTodos > 0 ? `(${lowTodos})` : ''}</button>
+                <option className={`btn btn-soft ${filter === 'medium' ? 'btn-primary' : ''}`} onClick={() => setFilter('medium')}>Medium {mediumTodos > 0 ? `(${mediumTodos})` : ''}</button>
+                <option className={`btn btn-soft ${filter === 'high' ? 'btn-primary' : ''}`} onClick={() => setFilter('high')}>High {highTodos > 0 ? `(${highTodos})` : ''}</button>
+          
+
+              </select>
+
+            </div> */}
           </div> : null
         }
         {filteredTodos.length > 0 ? (
           <>
-            <div className="flex items-center justify-between p-3 bg-base-100 rounded-t-xl shadow">
+            <div className="flex flex-col md:flex-row justify-between p-3 bg-base-100 rounded-t-xl shadow gap-2">
               <div className="flex items-center gap-2">
                 <h2 className="text-xl font-semibold">Liste des tâches</h2>
                 <span className="badge badge-neutral badge-primary badge-sm">{count}</span>
@@ -167,7 +212,7 @@ function App() {
               </button>
             </div>
             <ul className="bg-base-100 rounded-xl shadow space-y-2">
-              
+
               {filteredTodos.map(todo => (
                 <TodoItem
                   key={todo.id}
